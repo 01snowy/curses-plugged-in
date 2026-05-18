@@ -49,9 +49,12 @@
 - **Scenes**:
   - Save multiple designs and freely switch between them
   - Automatically switch design when OBS changes scene
+- - **plugins**:
+  - fully open source plugin system for curses 
+    
 
 # Community
-For help, feature requests, bug reports, release notifications, design templates [Join Discord](https://discord.gg/Sw6pw8fGYS)
+For help, feature requests, bug reports, release notifications, design templates [Join Discord](https://discord.gg/Sw6pw8fGYS) dont go here for support with my fork :3
 
 <a href="https://discord.gg/Sw6pw8fGYS"><img src="https://discordapp.com/api/guilds/856500849815060500/widget.png?style=banner2" /></a>
 
