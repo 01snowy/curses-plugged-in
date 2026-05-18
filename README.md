@@ -23,6 +23,7 @@
   <img width="600" src="https://user-images.githubusercontent.com/3977499/218335391-a53dab5b-1e22-47b8-89c5-e1124798fbdc.gif">
 </p>
 
+#THIS REPO IS A PLACEHOLDER FOR THE IN DEVELOPMENT CODE⚠️
 
 # Features
 - **OBS Captions customization**: Colors, fonts, shadows, background textures, text typing animation, sound effects, particle effects and CSS
