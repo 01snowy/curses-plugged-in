@@ -6,10 +6,8 @@
 </p>
 <p align="center">Speech to Text Captions for OBS, VRChat, Twitch chat and Discord</p>
 
-<p align="center"><b>Socials</b></p>
+<p align="center"><b>Socials not mine og creators</b></p>
 <p align="center">
-  <a href="https://www.twitch.tv/mmpcode"><img alt="Twitch Status" src="https://img.shields.io/twitch/status/mmpcode?label=Dev Streams&logo=twitch&logoColor=white"></a>
-  <a href="https://discord.gg/Sw6pw8fGYS"><img src="https://img.shields.io/discord/856500849815060500?label=Join Discord&color=blue&logo=discord&logoColor=white" alt="Discord"></a>
   <a href="https://twitter.com/mmpneo"><img src="https://img.shields.io/badge/Receive Updates-%231DA1F2.svg?label=Follow&logo=twitter&logoColor=white"></a> 
 </p>
 
@@ -25,13 +23,6 @@
   <img width="600" src="https://user-images.githubusercontent.com/3977499/218335391-a53dab5b-1e22-47b8-89c5-e1124798fbdc.gif">
 </p>
 
-<p align="center"><b>Repo Stats</b></p>
-<p align="center">
-  <img alt="GitHub repo size]" src="https://img.shields.io/github/repo-size/mmpneo/curses?color=2EB87D"/>
-  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/mmpneo/curses?color=2EB87D"/>
-  <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/mmpneo/curses?color=2EB87D"/>
-  <img alt="GitHub last commit]" src="https://img.shields.io/github/last-commit/mmpneo/curses?color=2EB87D"/>
-</p>
 
 # Features
 - **OBS Captions customization**: Colors, fonts, shadows, background textures, text typing animation, sound effects, particle effects and CSS
