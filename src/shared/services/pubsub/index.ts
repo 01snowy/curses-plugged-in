@@ -8,12 +8,23 @@ import { proxyMap } from "valtio/utils";
 // Lazy-load Tauri imports to avoid errors in web mode
 let tauriListen: any;
 let tauriInvoke: any;
-(async () => {
-  if (typeof window !== "undefined" && window.__TAURI_METADATA__) {
-    tauriListen = (await import('@tauri-apps/api/event')).listen;
-    tauriInvoke = (await import('@tauri-apps/api/tauri')).invoke;
+let tauriImportsPromise: Promise<void> | undefined;
+
+const loadTauriImports = async () => {
+  if (typeof window === "undefined" || !window.__TAURI_METADATA__) {
+    return;
   }
-})();
+  if (!tauriImportsPromise) {
+    tauriImportsPromise = Promise.all([
+      import("@tauri-apps/api/event"),
+      import("@tauri-apps/api/tauri"),
+    ]).then(([eventApi, tauriApi]) => {
+      tauriListen = eventApi.listen;
+      tauriInvoke = tauriApi.invoke;
+    });
+  }
+  await tauriImportsPromise;
+};
 
 // todo move event to zod
 
@@ -74,8 +85,9 @@ class Service_PubSub implements IServiceInterface {
   unregisterEvent = (eventValue: string) => this.registeredEvents.delete(eventValue);
 
   async init() {
+    await loadTauriImports();
     if (window.Config.isServer() && tauriListen) {
-      tauriListen('pubsub', (event: any) => {
+      await tauriListen('pubsub', (event: any) => {
         this.consumePubSubMessage(event.payload as string);
       });
     }
@@ -118,7 +130,8 @@ class Service_PubSub implements IServiceInterface {
   publishLocally({topic, data}: BaseEvent) {
     PubSub.publishSync(topic, data);
   }
-  #publishPubSub(msg: BaseEvent) {
+  async #publishPubSub(msg: BaseEvent) {
+    await loadTauriImports();
     if (window.Config.isApp() && tauriInvoke) {
       tauriInvoke("plugin:web|pubsub_broadcast", {value: JSON.stringify(msg)});
     }
@@ -137,7 +150,7 @@ class Service_PubSub implements IServiceInterface {
       let msg = {topic, data};
       this.publishLocally(msg);
       this.#publishPeers(msg);
-      this.#publishPubSub(msg);
+      void this.#publishPubSub(msg);
       this.#publishLink(msg);
   }
   publishText(topic: TextEventSource, textData: PartialWithRequired<TextEvent, "type" | "value">) {

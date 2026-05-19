@@ -38,26 +38,27 @@ const Native: FC = () => {
 
 const Browser: FC = () => {
   const {t} = useTranslation();
-  const handleOpen = () => {
+  const openMic = (browser: "chrome" | "msedge") => {
+    const url = `http://localhost:${window.Config.serverNetwork.port}/mic.html`;
+    if (!window.Config.isApp()) {
+      window.open(url, "_blank", "noopener,noreferrer");
+      return;
+    }
+
     invoke("plugin:web|open_browser", {
       data: {
-        browser: "chrome",
-        url: `http://localhost:${window.Config.serverNetwork.port}/mic.html`
+        browser,
+        url,
       }
     });
+  };
+
+  const handleOpen = () => {
+    openMic("chrome");
   };
 
   const handleOpenEdge = () => {
-    invoke("plugin:web|open_browser", {
-      data: {
-        browser: "msedge",
-        url: `http://localhost:${window.Config.serverNetwork.port}/mic.html`
-      }
-    });
-  };
-
-  const handleStartStt = () => {
-    invoke("plugin:windows_stt|start");
+    openMic("msedge");
   };
   return <>
     <Inspector.SubHeader>{t('stt.browser_title')}</Inspector.SubHeader>
