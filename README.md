@@ -1,6 +1,7 @@
 <p align="center">
 <img height="60" src="https://user-images.githubusercontent.com/3977499/218317016-0ebd9936-4065-4b6b-a0a0-1199d43c0024.svg">
 </p>
+<p align="center">Plugged In</p>
 <p align="center">
   <a href="https://GitHub.com/mmpneo/curses/releases/"><img src="https://img.shields.io/github/release/mmpneo/curses.svg?color=FC6471&label" alt="Node.js CI"></a>
 </p>
@@ -67,5 +68,5 @@ Paste the link and change window size to match app's canvas size (default is 500
 <img width="600" src="https://user-images.githubusercontent.com/3977499/218331723-721b69c5-a457-4dad-9658-f5232afc68f1.gif">
 
 ## Roadmap
-- [ ] push a working build :)
+- [x] push a working build :)
 - [ ] make a plan for new plugins
