@@ -21,7 +21,8 @@
 <p align="center">
 <!-- static -->
   <!-- <img width="600" src="https://user-images.githubusercontent.com/3977499/218319590-296c96f0-7daa-4130-ab40-6b32f20cc26e.png"> -->
-  <img width="600" src="https://user-images.githubusercontent.com/3977499/218335391-a53dab5b-1e22-47b8-89c5-e1124798fbdc.gif">
+  <img width="600" src="https://github.com/user-attachments/assets/306e4f54-a8a2-45f8-9896-2a5bf9d5f19f">
+">
 </p>
 
 # THIS REPO IS FULLY VIBE CODED ⚠️
