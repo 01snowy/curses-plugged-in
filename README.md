@@ -68,5 +68,5 @@ Paste the link and change window size to match app's canvas size (default is 500
 <img width="600" src="https://user-images.githubusercontent.com/3977499/218331723-721b69c5-a457-4dad-9658-f5232afc68f1.gif">
 
 ## Roadmap
-- [ ] push a working build :)
+- [x] push a working build :)
 - [ ] make a plan for new plugins
