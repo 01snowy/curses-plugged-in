@@ -42,7 +42,7 @@
 - **Scenes**:
   - Save multiple designs and freely switch between them
   - Automatically switch design when OBS changes scene
-- - **plugins**:
+- **plugins**:
   - fully open source plugin system for curses 
   - plugin settings save automatically to `Documents/Curses/settings.json`
   - share plugins from `Documents/Curses/plugins` with `plugins.config.json`
