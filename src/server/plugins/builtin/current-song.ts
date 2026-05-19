@@ -18,7 +18,7 @@ export default class CurrentSongPlugin implements IPlugin {
           refreshToken: z.string().optional(),
         })
         .optional(),
-      updateInterval: z.number().min(1000).default(3000),
+      updateInterval: z.number().min(1000).default(8000),
     });
   }
 
