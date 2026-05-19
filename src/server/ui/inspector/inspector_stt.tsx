@@ -38,19 +38,23 @@ const Native: FC = () => {
 
 const Browser: FC = () => {
   const {t} = useTranslation();
-  const openMic = (browser: "chrome" | "msedge") => {
+  const openMic = async (browser: "chrome" | "msedge") => {
     const url = `http://localhost:${window.Config.serverNetwork.port}/mic.html`;
     if (!window.Config.isApp()) {
       window.open(url, "_blank", "noopener,noreferrer");
       return;
     }
 
-    invoke("plugin:web|open_browser", {
-      data: {
-        browser,
-        url,
-      }
-    });
+    try {
+      await invoke("plugin:web|open_browser", {
+        data: {
+          browser,
+          url,
+        }
+      });
+    } catch (error) {
+      console.error(`Failed to open ${browser}:`, error);
+    }
   };
 
   const handleOpen = () => {
