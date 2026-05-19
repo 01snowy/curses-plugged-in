@@ -4,6 +4,7 @@
 <p align="center">
   <a href="https://GitHub.com/mmpneo/curses/releases/"><img src="https://img.shields.io/github/release/mmpneo/curses.svg?color=FC6471&label" alt="Node.js CI"></a>
 </p>
+# PLUGGED IN
 <p align="center">Speech to Text Captions for OBS, VRChat, Twitch chat and Discord</p>
 
 <p align="center"><b>Socials not mine og creators</b></p>
