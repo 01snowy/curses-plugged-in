@@ -1,5 +1,4 @@
 import { IServiceInterface } from "@/types";
-import { open, save } from "@tauri-apps/api/dialog";
 import {
   BaseDirectory,
   createDir,
@@ -13,6 +12,16 @@ import { toast } from "react-toastify";
 import * as Y from "yjs";
 import { ElementType } from "../../elements/schema";
 import { DocumentSchema, DocumentState } from "../../schema";
+
+// Lazy-load Tauri dialog imports to avoid errors in web mode
+let tauriOpen: any;
+let tauriSave: any;
+(async () => {
+  if (typeof window !== "undefined" && window.__TAURI_METADATA__) {
+    tauriOpen = (await import('@tauri-apps/api/dialog')).open;
+    tauriSave = (await import('@tauri-apps/api/dialog')).save;
+  }
+})();
 
 class Service_Document implements IServiceInterface {
   #file: Y.Doc = new Y.Doc();
@@ -102,7 +111,11 @@ class Service_Document implements IServiceInterface {
   }
 
   async importDocument() {
-    const path = await open({
+    if (!tauriOpen) {
+      console.warn('File dialog not available in web mode');
+      return;
+    }
+    const path = await tauriOpen({
       filters: [
         {
           name: "Curses template",
@@ -141,7 +154,11 @@ class Service_Document implements IServiceInterface {
     tempDoc.getMap("template").set("author", authorName);
 
     const tempEncodedUpdate = Y.encodeStateAsUpdate(tempDoc);
-    const path = await save({
+    if (!tauriSave) {
+      console.warn('File save dialog not available in web mode');
+      return;
+    }
+    const path = await tauriSave({
       filters: [
         {
           name: "Curses template",
@@ -159,7 +176,7 @@ class Service_Document implements IServiceInterface {
   }
 
   async loadDocument(): Promise<Uint8Array | undefined> {
-    if (window.Config.isClient()) {
+    if (window.Config.isClient() || !window.Config.isApp()) {
       return;
     }
 
@@ -177,6 +194,10 @@ class Service_Document implements IServiceInterface {
   }
 
   async #saveDocumentNative(doc: Y.Doc) {
+    if (!window.Config.isApp()) {
+      // Web mode: skip file operations
+      return;
+    }
     const bExists = await exists("user", { dir: BaseDirectory.AppData });
     if (!bExists)
       await createDir("user", { dir: BaseDirectory.AppData, recursive: true });

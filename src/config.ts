@@ -67,14 +67,23 @@ class AppConfiguration {
         port:     q.get("port") ?? location.port
       }
     }
-      // server is always app
-    // load network params from rust
+    // server is always app
+    // load network params from rust (if available)
     else {
-      const appConfig    = await invoke<any>("plugin:web|config");
-      this.serverNetwork = {
-        ip:   appConfig.local_ip,
-        host: "localhost",
-        port: appConfig.port
+      if (this.isApp()) {
+        const appConfig    = await invoke<any>("plugin:web|config");
+        this.serverNetwork = {
+          ip:   appConfig.local_ip,
+          host: "localhost",
+          port: appConfig.port
+        }
+      } else {
+        // web mode - use localhost defaults
+        this.serverNetwork = {
+          ip:   "localhost",
+          host: "localhost",
+          port: location.port || "1420"
+        }
       }
     }
   }

@@ -1,0 +1,51 @@
+{
+  "plugins": [
+    {
+      "id": "current-song",
+      "enabled": true,
+      "type": "builtin",
+      "config": {
+        "spotify": {
+          "clientId": "",
+          "clientSecret": "",
+          "refreshToken": ""
+        },
+        "updateInterval": 3000,
+        "displayFormat": "🎵 Now Playing: {artist} - {title}"
+      }
+    },
+    {
+      "id": "uniform-chat-source",
+      "enabled": true,
+      "type": "builtin",
+      "config": {
+        "sources": [
+          "text.stt",
+          "text.translation",
+          "text.textfield",
+          "text.nowPlaying"
+        ],
+        "messageFormat": "{message}",
+        "includeInterim": true,
+        "collapseWhitespace": true,
+        "trim": true,
+        "ignoreEmptyFinal": true
+      }
+    },
+    {
+      "id": "chat-source-filter",
+      "enabled": true,
+      "type": "builtin",
+      "config": {
+        "enabled": false,
+        "sources": [
+          "text.stt",
+          "text.translation",
+          "text.textfield",
+          "text.chat",
+          "text.nowPlaying"
+        ]
+      }
+    }
+  ]
+}

@@ -294,6 +294,8 @@ export const InputTextSource: FC<TextSourceProps> = memo(({ label, value, onChan
   return <InputSelect label={label} value={value} options={[
     { label: t('stt.title'), value: TextEventSource.stt },
     { label: t('transl.title'), value: TextEventSource.translation },
+    { label: t('common.source_chat', 'Unified chat'), value: TextEventSource.chat },
+    { label: t('nowPlaying.title', 'Now playing'), value: TextEventSource.nowPlaying },
   ]} onValueChange={onChange} />
 });
 

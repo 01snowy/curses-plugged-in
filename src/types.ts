@@ -40,15 +40,17 @@ export type TextEvent = z.infer<typeof TextEventSchema>;
 
 export enum TextEventSource {
   any = "text",
+  chat = "text.chat",
   textfield = "text.textfield",
   stt = "text.stt",
   translation = "text.translation",
+  nowPlaying = "text.nowPlaying",
 }
 
 // todo rename
 export const zodTextEventSource = z.nativeEnum(TextEventSource);
 
 export type InspectorTabPath = {
-  tab: Services | ElementType | "settings" | "integrations" | "scenes" | "files" | "fonts" | "obs",
+  tab: Services | ElementType | "settings" | "integrations" | "scenes" | "files" | "fonts" | "obs" | "plugins",
   value?: string
 }

@@ -92,6 +92,14 @@ const Canvas: FC = memo(() => {
 const LogsView = () => {
   const scrollContainer = useRef<HTMLDivElement>(null);
   const { lastId, list } = useSnapshot(window.ApiShared.pubsub.textHistory);
+  const sourceFilter = useSnapshot(window.ApiServer.state.plugins.chatSourceFilter);
+  const visibleList = sourceFilter.enabled
+    ? list.filter((event) =>
+        sourceFilter.sources.includes(
+          (event.source ?? `text.${event.event}`) as TextEventSource
+        )
+      )
+    : list;
 
   useEffect(() => {
       setTimeout(() => scrollContainer.current?.scrollTo({ top: scrollContainer.current.scrollHeight, behavior: "smooth" }));
@@ -105,10 +113,15 @@ const LogsView = () => {
     className="relative w-full h-full flex flex-col">
     <div ref={scrollContainer} className="flex flex-grow overflow-y-scroll scrollbar-hide flex-col-reverse mb-8">
       <div className="w-full flex flex-col px-4 pt-6 pb-12 space-y-2">
-        {list.map(event => <div key={event.id} className="flex flex-col rounded-md bg-neutral/10 hover:bg-neutral/30 transition-colors px-4 py-2 cursor-pointer">
+        {visibleList.map(event => <div key={event.id} className="flex flex-col rounded-md bg-neutral/10 hover:bg-neutral/30 transition-colors px-4 py-2 cursor-pointer">
           <div className="hidden sm:block text-xs opacity-50 font-semibold">from {event.event}</div>
           <div className="text-sm sm:text-lg font-semibold !leading-none">{event.value}</div>
         </div>)}
+        {visibleList.length === 0 && (
+          <div className="text-sm text-base-content/50 text-center py-8">
+            No text events match the selected source filter
+          </div>
+        )}
       </div>
     </div>
   </motion.div>

@@ -6,7 +6,7 @@ use std::{
 use tauri::{
     command,
     plugin::{Builder, TauriPlugin},
-    Manager, Runtime, State,
+    Runtime, State,
 };
 use tokio::sync::mpsc;
 use windows::Win32::{

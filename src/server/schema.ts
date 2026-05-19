@@ -6,8 +6,10 @@ import { Service_Translation_Schema } from "./services/translation/schema";
 import { Service_TTS_Schema } from "./services/tts/schema";
 import { Service_Twitch_Schema } from "./services/twitch/schema";
 import { Service_VRC_Schema } from "./services/vrc/schema";
+import { Service_NowPlaying_Schema } from "./services/nowPlaying/schema";
 
 import { zSafe, zStringNumber } from "@/utils";
+import { TextEventSource, zodTextEventSource } from "@/types";
 import { z } from "zod";
 
 const zodServiceSchemaFactory = <Data extends z.ZodDefault<z.AnyZodObject>>(schema: Data) => {
@@ -16,6 +18,34 @@ const zodServiceSchemaFactory = <Data extends z.ZodDefault<z.AnyZodObject>>(sche
     data: schema
   });
 }
+
+export const PluginSettingsSchema = z.object({
+  uniformChatSource: z.object({
+    sources: zSafe(z.array(zodTextEventSource), [
+      TextEventSource.stt,
+      TextEventSource.translation,
+      TextEventSource.textfield,
+      TextEventSource.nowPlaying,
+    ]),
+    messageFormat: zSafe(z.string(), "{message}"),
+    includeInterim: zSafe(z.coerce.boolean(), true),
+    collapseWhitespace: zSafe(z.coerce.boolean(), true),
+    trim: zSafe(z.coerce.boolean(), true),
+    ignoreEmptyFinal: zSafe(z.coerce.boolean(), true),
+    manualSource: zSafe(zodTextEventSource, TextEventSource.textfield),
+    manualMessage: zSafe(z.string(), ""),
+  }).default({}),
+  chatSourceFilter: z.object({
+    enabled: zSafe(z.coerce.boolean(), false),
+    sources: zSafe(z.array(zodTextEventSource), [
+      TextEventSource.stt,
+      TextEventSource.translation,
+      TextEventSource.textfield,
+      TextEventSource.chat,
+      TextEventSource.nowPlaying,
+    ]),
+  }).default({}),
+}).default({});
 
 export const BackendSchema = z.object({
   id: zSafe(z.string(), () => customAlphabet(urlAlphabet, 42)()),
@@ -42,6 +72,10 @@ export const BackendSchema = z.object({
     twitch: zodServiceSchemaFactory(Service_Twitch_Schema).default({}),
     discord: zodServiceSchemaFactory(Service_Discord_Schema).default({}),
     obs: zodServiceSchemaFactory(Service_OBS_Schema).default({}),
-  }).default({})
+    nowPlaying: zodServiceSchemaFactory(Service_NowPlaying_Schema).default({}),
+  }).default({}),
+  plugins: PluginSettingsSchema,
 }).default({});
 export type BackendState = z.infer<typeof BackendSchema>;
+export type UniformChatSourceSettings = BackendState["plugins"]["uniformChatSource"];
+export type ChatSourceFilterSettings = BackendState["plugins"]["chatSourceFilter"];

@@ -48,6 +48,11 @@ class Service_VRC implements IServiceInterface {
     this.targets.textbox?.pushFinal(value);
   }
 
+  /** VRChat final text only — no typing indicator (for now playing). */
+  pushChatboxFinal(value: string): void {
+    this.#activeTarget?.pushFinal(value);
+  }
+
   sendOsc(path: string, args: any[]) {
     invoke("plugin:osc|send", {
       rpc: {

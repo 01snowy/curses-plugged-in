@@ -18,6 +18,7 @@ import Inspector_Settings                                                       
 import Inspector_Twitch from "./inspector_twitch";
 import Inspector_Discord from "./inspector_discord";
 import Inspector_OBS from "./inspector_obs";
+import Inspector_Plugins from "./inspector_plugins";
 
 const Inspector: FC<{ path?: InspectorTabPath }> = ({ path }) => {
   const handleCopyError = (err: string) => {
@@ -53,6 +54,7 @@ const Inspector: FC<{ path?: InspectorTabPath }> = ({ path }) => {
         {path?.tab === Services.vrc && <Inspector_VRC key="vrc" />}
         {path?.tab === Services.twitch && <Inspector_Twitch key="twitch" />}
         {path?.tab === Services.discord && <Inspector_Discord key="discord" />}
+        {path?.tab === "plugins" && <Inspector_Plugins key="plugins" />}
         {path?.tab === "settings" && <Inspector_Settings key="settings" />}
         {path?.tab === "scenes" && <Inspector_Scenes key="scenes" />}
         {path?.tab === "files" && <Inspector_Files key="files" />}

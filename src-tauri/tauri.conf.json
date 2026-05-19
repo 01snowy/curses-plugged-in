@@ -29,7 +29,7 @@
       },
       "fs":{
         "all": true,
-        "scope": ["$APPDATA/**"]
+        "scope": ["$APPDATA/**", "$DOCUMENT/**"]
       }
     },
     "bundle": {

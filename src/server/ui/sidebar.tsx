@@ -143,6 +143,10 @@ const Sidebar: FC = memo(() => {
           <SideBarButton tab={{ tab: Services.discord }} tooltip={t("discord.title")}><SiDiscord /></SideBarButton>
           <SideBarButton tab={{ tab: Services.vrc }} tooltip={t("vrc.title")}><RiMessage2Fill /></SideBarButton>
         </div>
+        <SIdebarDivider expand={expand} icon={<MdExtension className="flex-none" size={14} />}>{t('plugins.title', 'Plugins')}</SIdebarDivider>
+        <div className={classNames("flex flex-col space-y-1 transition-spacing", expand ? "pl-2" : "pl-0")}>
+          <SideBarButton tab={{ tab: "plugins" }} tooltip={t("plugins.title", "Plugins")}><MdExtension /></SideBarButton>
+        </div>
         <SIdebarDivider expand={expand} icon={<RiBrushFill className="flex-none" size={14} />}>{t('main.section_elements')}</SIdebarDivider>
         <div className={classNames("flex flex-col space-y-1 transition-spacing", expand ? "pl-2" : "pl-0")}>
           <SideBarButton tab={{ tab: "scenes" }} tooltip={t("scenes.title")}><RiStackFill /></SideBarButton>

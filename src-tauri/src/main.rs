@@ -12,6 +12,7 @@ use windows::{
     Win32::UI::WindowsAndMessaging::{MessageBoxA, MB_ICONWARNING, MB_OK},
 };
 
+use crate::services::now_playing::{self, NowPlayingInfo};
 use crate::services::AppConfiguration;
 
 mod services;
@@ -37,6 +38,11 @@ fn get_native_features() -> NativeFeatures {
 #[command]
 fn get_port(state: State<'_, InitArguments>) -> u16 {
     state.port
+}
+
+#[command]
+fn get_now_playing() -> Option<NowPlayingInfo> {
+    now_playing::get_now_playing()
 }
 
 #[command]
@@ -77,7 +83,7 @@ fn main() {
             set_shadow(&window, true).expect("Unsupported platform!");
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![get_port, get_native_features, app_close])
+        .invoke_handler(tauri::generate_handler![get_port, get_native_features, app_close, get_now_playing])
         .plugin(tauri_plugin_window_state::Builder::default().build())
         .manage(AppConfiguration { port: args.port })
         .plugin(services::osc::init())

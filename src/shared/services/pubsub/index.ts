@@ -1,11 +1,19 @@
 import { BaseEvent, IServiceInterface, PartialWithRequired, ServiceNetworkState, TextEvent, TextEventSchema, TextEventSource, TextEventType } from "@/types";
-import { listen } from '@tauri-apps/api/event';
-import { invoke } from "@tauri-apps/api/tauri";
 import { nanoid } from "nanoid";
 import PubSub from "pubsub-js";
 import { toast } from "react-toastify";
 import { proxy } from "valtio";
 import { proxyMap } from "valtio/utils";
+
+// Lazy-load Tauri imports to avoid errors in web mode
+let tauriListen: any;
+let tauriInvoke: any;
+(async () => {
+  if (typeof window !== "undefined" && window.__TAURI_METADATA__) {
+    tauriListen = (await import('@tauri-apps/api/event')).listen;
+    tauriInvoke = (await import('@tauri-apps/api/tauri')).invoke;
+  }
+})();
 
 // todo move event to zod
 
@@ -26,6 +34,7 @@ class Service_PubSub implements IServiceInterface {
     list: {
       id: string,
       event: string,
+      source: TextEventSource,
       value: string
     }[]
   }>({
@@ -65,13 +74,16 @@ class Service_PubSub implements IServiceInterface {
   unregisterEvent = (eventValue: string) => this.registeredEvents.delete(eventValue);
 
   async init() {
-    window.Config.isServer() && listen('pubsub', (event) => {
-      this.consumePubSubMessage(event.payload as string);
-    });
+    if (window.Config.isServer() && tauriListen) {
+      tauriListen('pubsub', (event: any) => {
+        this.consumePubSubMessage(event.payload as string);
+      });
+    }
 
     this.registerEvent({label: "Speech to text", value: TextEventSource.stt});
     this.registerEvent({label: "Translation",value: TextEventSource.translation});
     this.registerEvent({label: "Text field",value: TextEventSource.textfield});
+    this.registerEvent({label: "Unified chat", value: TextEventSource.chat});
     this.registerEvent({label: "Any text source",value: TextEventSource.any});
 
     //track text events
@@ -82,7 +94,13 @@ class Service_PubSub implements IServiceInterface {
         if (this.textHistory.list.length >= 40)
           this.textHistory.list.shift();
         const id = nanoid();
-        this.textHistory.list.push({ id, event: eventName?.replace("text.", "") || "text", value: event.value });
+        const source = (eventName as TextEventSource | undefined) ?? TextEventSource.any;
+        this.textHistory.list.push({
+          id,
+          event: source.replace("text.", "") || "text",
+          source,
+          value: event.value,
+        });
         this.textHistory.lastId = id;
       }
     });
@@ -101,8 +119,9 @@ class Service_PubSub implements IServiceInterface {
     PubSub.publishSync(topic, data);
   }
   #publishPubSub(msg: BaseEvent) {
-    window.Config.isApp() &&
-    invoke("plugin:web|pubsub_broadcast", {value: JSON.stringify(msg)});
+    if (window.Config.isApp() && tauriInvoke) {
+      tauriInvoke("plugin:web|pubsub_broadcast", {value: JSON.stringify(msg)});
+    }
   }
   #publishLink(msg: BaseEvent) {
     if (this.#socket && this.#socket.readyState === this.#socket.OPEN)

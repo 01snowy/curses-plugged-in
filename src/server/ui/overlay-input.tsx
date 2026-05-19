@@ -37,6 +37,14 @@ const logsVariants = {
 
 const Logs: FC<{ onFillRequest: (value: string) => void }> = ({ onFillRequest }) => {
   const { lastId, list } = useSnapshot(window.ApiShared.pubsub.textHistory);
+  const sourceFilter = useSnapshot(window.ApiServer.state.plugins.chatSourceFilter);
+  const visibleList = sourceFilter.enabled
+    ? list.filter((event) =>
+        sourceFilter.sources.includes(
+          (event.source ?? `text.${event.event}`) as TextEventSource
+        )
+      )
+    : list;
   const scrollContainer = useRef<HTMLDivElement>(null)
   useEffect(() => {
       setTimeout(() => scrollContainer.current?.scrollTo({ top: scrollContainer.current.scrollHeight, behavior: "smooth" }));
@@ -46,10 +54,15 @@ const Logs: FC<{ onFillRequest: (value: string) => void }> = ({ onFillRequest })
     <div className="w-full flex flex-col px-2 py-2 space-y-1">
       <span className="px-2 text-sm font-semibold">Text events</span>
       <span className="opacity-50 px-2 text-xs font-medium">ℹ Doubleclick event to insert it into text field</span>
-      {list.map(event => <div key={event.id} onDoubleClick={() => onFillRequest(event.value)} className="flex flex-col rounded-md bg-neutral/10 hover:bg-neutral/30 transition-colors p-2 cursor-pointer">
+      {visibleList.map(event => <div key={event.id} onDoubleClick={() => onFillRequest(event.value)} className="flex flex-col rounded-md bg-neutral/10 hover:bg-neutral/30 transition-colors p-2 cursor-pointer">
         <div className="hidden sm:block text-xs opacity-50 font-semibold">from {event.event}</div>
         <div className="text-sm sm:text-lg font-bold !leading-none">{event.value}</div>
       </div>)}
+      {visibleList.length === 0 && (
+        <div className="px-2 py-6 text-center text-xs text-base-content/50">
+          No events match the source filter
+        </div>
+      )}
     </div>
   </div>
 }
@@ -128,4 +141,3 @@ const OverlayInput: FC<{ onClose: () => void }> = forwardRef(({ onClose }, ref: 
   </motion.div>
 })
 export default OverlayInput;
-
