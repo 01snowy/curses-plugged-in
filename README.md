@@ -70,3 +70,4 @@ Paste the link and change window size to match app's canvas size (default is 500
 ## Roadmap
 - [x] push a working build :)
 - [ ] make a plan for new plugins
+- [ ] Steam VR support
