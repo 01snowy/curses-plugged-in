@@ -39,6 +39,7 @@ const themesDark = [
   'curses',
   'matrix',
   'staffy',
+  'snowy',
   'dark',
   'synthwave',
   'halloween',
@@ -104,17 +105,11 @@ const Inspector_Settings: FC = memo(() => {
       <div className="flex flex-col items-center space-y-1">
         <span className="text-4xl leading-none font-header font-black"><Logo/></span>
         <div className="flex space-x-1 self-center">
-          <Tooltip content="/mmpcode" body={<span>I stream app development, vrc udon <br/> stuff and games sometimes</span>}>
-            <a target="_blank" href="https://www.twitch.tv/mmpcode" className="btn text-primary btn-ghost btn-circle text-2xl"><SiTwitch /></a>
+          <Tooltip content="/mmpcode" body={<span>I stream every few years<br/> </span>}>
+            <a target="_blank" href="https://www.twitch.tv/" className="btn text-primary btn-ghost btn-circle text-2xl"><SiTwitch /></a>
           </Tooltip>
-          <Tooltip content="@mmpneo" body="I tweet once a year, LUL">
-            <a target="_blank" href="https://twitter.com/mmpneo" className="btn text-primary btn-ghost btn-circle text-2xl"><SiTwitter /></a>
-          </Tooltip>
-          <Tooltip content="Code and Curses" body={<span>App updates and help</span>}>
-            <a target="_blank" href="https://discord.gg/Sw6pw8fGYS" className="btn text-primary btn-ghost btn-circle text-2xl"><SiDiscord /></a>
-          </Tooltip>
-          <Tooltip content="Patreon" body={<span>Subscribe to get a Supporter role in discord <br/> (completely useless, just different color) <img className="h-8" src="/peepoSmile.webp"/></span>}>
-            <a target="_blank" href="https://www.patreon.com/mmpcode" className="btn text-primary btn-ghost btn-circle text-2xl"><SiPatreon /></a>
+          <Tooltip content="@mmpneo" body="I dont rlly use twitter">
+            <a target="_blank" href="https://twitter.com/0lsnowy" className="btn text-primary btn-ghost btn-circle text-2xl"><SiTwitter /></a>
           </Tooltip>
         </div>
         <div className="self-center text-sm opacity-50">{t('settings.desc_1')}</div>
