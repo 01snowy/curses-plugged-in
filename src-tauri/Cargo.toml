@@ -1,8 +1,8 @@
 [package]
 name = "curses"
-version = "0.0.19"
+version = "0.1.2"
 description = "A very cool app"
-authors = ["mmpneo@gmail.com"]
+authors = ["0lsnowy"]
 license = ""
 repository = ""
 edition = "2021"
