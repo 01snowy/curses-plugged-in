@@ -7,16 +7,6 @@
 </p>
 <p align="center">Speech to Text Captions for OBS, VRChat, Twitch chat and Discord</p>
 
-<p align="center"><b>Socials not mine og creators</b></p>
-<p align="center">
-  <a href="https://twitter.com/mmpneo"><img src="https://img.shields.io/badge/Receive Updates-%231DA1F2.svg?label=Follow&logo=twitter&logoColor=white"></a> 
-</p>
-
-<p align="center">
-<span class="badge-patreon">
-  <a href="https://patreon.com/mmpcode"><img src="https://img.shields.io/badge/patreon-Donate-yellow.svg?label=&logo=patreon&logoColor=white" alt="Patreon donate button" /></a>
-</span>
-</p>
 
 <p align="center">
 <!-- static -->
