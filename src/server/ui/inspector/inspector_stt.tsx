@@ -1,7 +1,7 @@
 import { STT_Backends, STT_State } from "@/server/services/stt/schema";
 import { ServiceNetworkState } from "@/types";
 import { invoke } from "@tauri-apps/api/tauri";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { RiCharacterRecognitionFill, RiUserVoiceFill } from "react-icons/ri";
 import { SiGooglechrome, SiMicrosoftedge } from "react-icons/si";
 import { useSnapshot } from "valtio";
@@ -12,6 +12,7 @@ import { InputCheckbox, InputMapObject, InputMappedGroupSelect, InputSelect, Inp
 import NiceModal from "@ebay/nice-modal-react";
 import Modal from "../Modal";
 import { useTranslation } from 'react-i18next';
+import classNames from "classnames";
 
 const Native: FC = () => {
   const {t} = useTranslation();
@@ -38,10 +39,16 @@ const Native: FC = () => {
 
 const Browser: FC = () => {
   const {t} = useTranslation();
+  const [loading, setLoading] = useState(false);
+
   const openMic = async (browser: "chrome" | "msedge") => {
+    if (loading) return; // Prevent multiple clicks
+    
+    setLoading(true);
     const url = `http://localhost:${window.Config.serverNetwork.port}/mic.html`;
     if (!window.Config.isApp()) {
       window.open(url, "_blank", "noopener,noreferrer");
+      setLoading(false);
       return;
     }
 
@@ -54,20 +61,15 @@ const Browser: FC = () => {
       });
     } catch (error) {
       console.error(`Failed to open ${browser}:`, error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleOpen = () => {
-    openMic("chrome");
-  };
-
-  const handleOpenEdge = () => {
-    openMic("msedge");
-  };
   return <>
     <Inspector.SubHeader>{t('stt.browser_title')}</Inspector.SubHeader>
-    <button className="btn btn-sm btn-neutral gap-2" onClick={handleOpen}><SiGooglechrome/> Open Chrome</button>
-    <button className="btn btn-sm btn-neutral gap-2" onClick={handleOpenEdge}><SiMicrosoftedge/> Open Edge</button>
+    <button disabled={loading} className={classNames("btn btn-sm btn-neutral gap-2", { loading })} onClick={() => openMic("chrome")}>{loading ? "Wait" : <><SiGooglechrome/> Open Chrome</>}</button>
+    <button disabled={loading} className={classNames("btn btn-sm btn-neutral gap-2", { loading })} onClick={() => openMic("msedge")}>{loading ? "Wait" : <><SiMicrosoftedge/> Open Edge</>}</button>
   </>
 }
 
