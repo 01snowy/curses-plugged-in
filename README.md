@@ -15,7 +15,7 @@
 </p>
 
 # THIS REPO IS FULLY VIBE CODED ⚠️
-## I just wanted plugins 😭
+I just wanted plugins 😭
 # Features
 - **OBS Captions customization**: Colors, fonts, shadows, background textures, text typing animation, sound effects, particle effects and CSS
 - **Native OBS stream captions**
